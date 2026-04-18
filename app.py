@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return {"message": "Hello World!", "status": "Ready"}
+    return "Hi there! Welcome to the Hello World practice app."
 
 if __name__ == "__main__":
     # Use environment variables for port (Standard practice)
