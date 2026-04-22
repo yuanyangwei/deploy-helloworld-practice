@@ -63,9 +63,14 @@ jobs:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         REPO: auto-deployment-practice
       run: |
-        docker build -t $ECR_REGISTRY/$REPO:${{ github.sha }} .
+        # 1. Build the image and give it TWO tags at the same time
+        docker build -t $ECR_REGISTRY/$REPO:${{ github.sha }} \
+                     -t $ECR_REGISTRY/$REPO:latest .
+        # 2. Now that they exist locally, push them both to AWS
+
         docker push $ECR_REGISTRY/$REPO:${{ github.sha }}
         docker push $ECR_REGISTRY/$REPO:latest
+        # 3. Output the SHA version so the next step knows exactly which one to deploy
         echo "image=$ECR_REGISTRY/$REPO:${{ github.sha }}" >> $GITHUB_OUTPUT
 
     # ------------------------------------------
