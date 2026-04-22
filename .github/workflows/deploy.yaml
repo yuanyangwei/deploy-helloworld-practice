@@ -65,6 +65,7 @@ jobs:
       run: |
         docker build -t $ECR_REGISTRY/$REPO:${{ github.sha }} .
         docker push $ECR_REGISTRY/$REPO:${{ github.sha }}
+        docker push $ECR_REGISTRY/$REPO:latest
         echo "image=$ECR_REGISTRY/$REPO:${{ github.sha }}" >> $GITHUB_OUTPUT
 
     # ------------------------------------------
