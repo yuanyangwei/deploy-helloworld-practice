@@ -72,7 +72,15 @@ resource "aws_ecs_task_definition" "app" {
     portMappings = [{
       containerPort = var.container_port
       hostPort      = var.container_port
-    }]
+    }],
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        awslogs-group         = "/ecs/auto-deployment-practice"
+        awslogs-region        = "ap-southeast-1"
+        awslogs-stream-prefix = "ecs"
+      }
+    }
   }])
 }
 
