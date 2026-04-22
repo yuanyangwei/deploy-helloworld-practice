@@ -1,5 +1,22 @@
 from flask import Flask, jsonify, request
 import os
+import logging
+from datetime import datetime
+import pytz
+
+# Custom formatter for Singapore time
+class SingaporeFormatter(logging.Formatter):
+    def formatTime(self, record, datefmt=None):
+        sg_time = datetime.fromtimestamp(record.created, pytz.timezone('Asia/Singapore'))
+        if datefmt:
+            return sg_time.strftime(datefmt)
+        return sg_time.isoformat()
+
+handler = logging.StreamHandler()
+formatter = SingaporeFormatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s', "%Y-%m-%d %H:%M:%S")
+handler.setFormatter(formatter)
+app.logger.handlers = [handler]
+app.logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 
