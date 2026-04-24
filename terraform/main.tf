@@ -19,7 +19,7 @@ provider "aws" {
 }
 
 # --- VPC & NETWORK DATA ---
-data "aws_vpc" "main" {
+resource "aws_vpc" "main" {
   cidr_block = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "igw" {
     Name = "${var.project_name}-igw"
   }
 }
-resource "aws_subnets" "public" {
+resource "aws_subnet" "public" {
   vpc_id = aws_vpc.main.id
   cidr_block = var.public_subnet_cidr
   map_public_ip_on_launch = true
@@ -70,7 +70,7 @@ resource "aws_ecr_repository" "repo" {
 resource "aws_security_group" "ecs_sg" {
   name   = "${var.project_name}-sg"
   description = "Allow inbound traffic to ECS task"
-  vpc_id = data.aws_vpc.default.id
+  vpc_id = aws_vpc.main.id
 
   ingress {
     from_port   = var.container_port
