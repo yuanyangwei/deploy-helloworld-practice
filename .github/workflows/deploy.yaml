@@ -68,7 +68,7 @@ jobs:
     - name: "Run pip-audit for vulnerabilities"
       run: |
         # Point specifically to your requirements file and disable global pip scanning
-        pip-audit -r requirements.txt --disable-pip
+        pip-audit -r requirements.txt --disable-pip --no-deps
 
   # ==========================================
   # PART 1: INFRASTRUCTURE AS CODE (IaC)
