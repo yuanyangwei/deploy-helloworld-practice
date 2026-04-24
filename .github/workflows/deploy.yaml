@@ -67,9 +67,8 @@ jobs:
         pip install pip-audit
     - name: "Run pip-audit for vulnerabilities"
       run: |
-        # Use --disable-pip to prevent the audit from scanning the 
-        # package manager itself, focusing only on your app's libraries.
-        pip-audit --disable-pip
+        # Point specifically to your requirements file and disable global pip scanning
+        pip-audit -r requirements.txt --disable-pip
 
   # ==========================================
   # PART 1: INFRASTRUCTURE AS CODE (IaC)
