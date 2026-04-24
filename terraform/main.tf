@@ -7,9 +7,9 @@ terraform {
   }
   # Note: Create this S3 bucket manually in AWS Console first!
   backend "s3" {
-    bucket = "yuanyang-terraform-state-2026" 
-    key    = "dev/terraform.tfstate"
-    region = "ap-southeast-1"
+    bucket         = "yuanyang-terraform-state-2026"
+    key            = "dev/terraform.tfstate"
+    region         = "ap-southeast-1"
     dynamodb_table = "terraform-state-lock-wei"
   }
 }
@@ -20,7 +20,7 @@ provider "aws" {
 
 # --- VPC & NETWORK DATA ---
 resource "aws_vpc" "main" {
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
@@ -29,16 +29,16 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = data.aws_vpc.main.id
+  vpc_id = aws_vpc.main.id
   tags = {
     Name = "${var.project_name}-igw"
   }
 }
 resource "aws_subnet" "public" {
-  vpc_id = aws_vpc.main.id
-  cidr_block = var.public_subnet_cidr
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = var.public_subnet_cidr
   map_public_ip_on_launch = true
-  availability_zone = "${var.aws_region}a"
+  availability_zone       = "${var.aws_region}a"
   tags = {
     name = "${var.project_name}-public-subnet"
   }
@@ -68,9 +68,9 @@ resource "aws_ecr_repository" "repo" {
 
 # --- SECURITY ---
 resource "aws_security_group" "ecs_sg" {
-  name   = "${var.project_name}-sg"
+  name        = "${var.project_name}-sg"
   description = "Allow inbound traffic to ECS task"
-  vpc_id = aws_vpc.main.id
+  vpc_id      = aws_vpc.main.id
 
   ingress {
     from_port   = var.container_port
@@ -101,8 +101,8 @@ resource "aws_ecs_task_definition" "app" {
   execution_role_arn       = aws_iam_role.ecs_exec_role.arn
 
   container_definitions = jsonencode([{
-    name      = "hello-world"
-    image     = "${aws_ecr_repository.repo.repository_url}:latest"
+    name  = "hello-world"
+    image = "${aws_ecr_repository.repo.repository_url}:latest"
     portMappings = [{
       containerPort = var.container_port
       hostPort      = var.container_port
@@ -142,8 +142,8 @@ resource "aws_iam_role" "ecs_exec_role" {
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
+      Action    = "sts:AssumeRole"
+      Effect    = "Allow"
       Principal = { Service = "ecs-tasks.amazonaws.com" }
     }]
   })
