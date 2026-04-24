@@ -110,7 +110,7 @@ resource "aws_ecs_task_definition" "app" {
     logConfiguration = {
       logDriver = "awslogs"
       options = {
-        awslogs-group         = "/ecs/auto-deployment-practice"
+        awslogs-group         = aws_cloudwatch_log_group.ecs_logs.name
         awslogs-region        = "ap-southeast-1"
         awslogs-stream-prefix = "ecs"
       }
@@ -133,7 +133,7 @@ resource "aws_ecs_service" "main" {
 }
 
 resource "aws_cloudwatch_log_group" "ecs_logs" {
-  name              = "/ecs/${var.project_name}"
+  name              = "/ecs/auto-deployment-practice"
   retention_in_days = 7
 }
 # --- PERMISSIONS ---
