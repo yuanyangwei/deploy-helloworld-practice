@@ -67,7 +67,9 @@ jobs:
         pip install pip-audit
     - name: "Run pip-audit for vulnerabilities"
       run: |
-        pip-audit
+        # We ignore pip because the current runner version has a 
+        # vulnerability with no available fix version yet.
+        pip-audit --ignore-package pip
 
   # ==========================================
   # PART 1: INFRASTRUCTURE AS CODE (IaC)
