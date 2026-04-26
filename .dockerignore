@@ -1,1 +1,11 @@
 README.md
+.git
+.gitignore
+.terraform/
+terraform.tfstate*
+.terraform.lock.hcl
+.vscode/
+.ruff_cache/
+test_app.py
+*.tfvars
+*.tfvars.json
