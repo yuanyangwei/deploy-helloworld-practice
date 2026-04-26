@@ -1,0 +1,18 @@
+# Terraform local state and lock files
+.terraform/
+terraform/.terraform/providers/
+terraform.tfstate
+terraform.tfstate.*
+.terraform.lock.hcl
+
+# Terraform provider plugins (if any)
+.terraformrc
+crash.log
+
+# Ignore sensitive or local override files
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

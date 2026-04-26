@@ -7,10 +7,10 @@ terraform {
   }
   # Note: Create this S3 bucket manually in AWS Console first!
   backend "s3" {
-    bucket         = "yuanyang-terraform-state-2026"
-    key            = "dev/terraform.tfstate"
-    region         = "ap-southeast-1"
-    dynamodb_table = "terraform-state-lock-wei"
+    bucket       = "yuanyang-terraform-state-2026"
+    key          = "dev/terraform.tfstate"
+    region       = "ap-southeast-1"
+    use_lockfile = true
   }
 }
 
